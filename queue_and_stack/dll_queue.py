@@ -4,13 +4,16 @@ from doubly_linked_list import DoublyLinkedList
 
 
 class Queue:
-    def __init__(self):
+    def __init__(self, size, value, prev = None, next = None):
+		# Declare class properties
         self.size = 0
-        # Why is our DLL a good choice to store our elements?
-        # self.storage = ?
+        self.value = value
+		self.prev = prev
+		self.next = next
+
 
     def enqueue(self, value):
-        pass
+        
 
     def dequeue(self):
         pass
