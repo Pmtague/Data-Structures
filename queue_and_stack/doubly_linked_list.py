@@ -57,11 +57,15 @@ class DoublyLinkedList:
     as the new head of the list. Don't forget to handle 
     the old head node's previous pointer accordingly."""
     def add_to_head(self, value):
+		# Create a new node
         new_node = ListNode(value, None, None)
+		# Increment the length of the list to account for the new node
         self.length += 1
-        if not self.head and self.tail:
+		# If the list is empty, the new node is both the head and the tail in DLL
+        if not self.head and not self.tail:
             self.head = new_node
             self.tail = new_node
+		# Otherwise, assign the new node's next pointer to the old head, change the old head's prev pointer from null to the new node, and 
         else:
             new_node.next = self.head
             self.head.prev = new_node
@@ -79,11 +83,15 @@ class DoublyLinkedList:
     as the new tail of the list. Don't forget to handle 
     the old tail node's next pointer accordingly."""
     def add_to_tail(self, value):
+		# Create a new node
         new_node = ListNode(value, None, None)
+		# Add to the length of the list
         self.length += 1
+		# If the list was empty, assign the head and the tail to the new node
         if not self.head and self.tail:
             self.head = new_node
             self.tail = new_node
+		# Otherwise, assign the new node's previous pointer to the old tail, point the old tail's next pointer to the new node, assign the tail label to the new node
         else:
             new_node.prev = self.tail
             self.tail.next = new_node
