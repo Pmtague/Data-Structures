@@ -14,11 +14,11 @@ class ListNode:
     after this node. Note that this node could already
     have a next node it is point to."""
     def insert_after(self, value):
-        # Store next in a variable
+        # Store next pointer of node we are inserting after in a variable
         current_next = self.next
-        # Set next equal to a list node obj, passing in the new value and the current self.next
+        # Set next equal to a list node obj, passing in the new value and attaching the old self.next to it
         self.next = ListNode(value, self, current_next)
-        #####
+        # TODO Not sure I understand how this part is working, but I think it is supposed to create a previous pointer for the new node 
         if current_next:
             current_next.prev = self.next
 
@@ -136,27 +136,27 @@ class DoublyLinkedList:
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""
     def delete(self, node):
-        # Decrement the length of the list
-        self.length -= 1
         # If LL is empty
         if not self.head and not self.tail:
-            #TODO: Error handling
+            print("The list is empty")
             return
+        # Decrement the length of the list
+        self.length -= 1
         # If the node is the head and tail, only one item in the list
         if self.head == self.tail:
             # Remove the pointers and get on with your life
             self.head = None
             self.tail = None
         # If the node is the head
-        elif self.head == node:
+        elif self.head is node:
             # Set the former next as the current head
-            self.head = self.head.next
+            self.head = node.next
             # Delete the node
             node.delete()
         # If the node is the tail
-        elif self.tail == node:
+        elif self.tail is node:
             # Set the former prev as the current tail
-            self.tail = self.tail.prev
+            self.tail = node.prev
             # Delete the node
             node.delete()
         # Otherwise
