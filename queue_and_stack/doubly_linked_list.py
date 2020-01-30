@@ -174,7 +174,7 @@ class DoublyLinkedList:
         max_value = self.head.value
         # Set a variable for the current node being evaluated and set it equal to the head to start there
         current = self.head
-        # While there is a head
+        # While current is a node
         while current:
             # If the value of current is greater than the currently stored max_value, replace the max value with the value of current
             if current.value > max_value:

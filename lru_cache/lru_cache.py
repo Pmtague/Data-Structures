@@ -30,9 +30,11 @@ class LRUCache:
     order, as well as a storage dict that provides fast access
     to every node stored in the cache.
     """
-    def __init__(self, limit=10, count=0 ):
-        pass
-
+    def __init__(self, limit=10):
+        self.limit = limit
+		self.count = 0
+		self.q = Queue()
+        self.dict = {}
     """
     Retrieves the value associated with the given key. Also
     needs to move the key-value pair to the end of the order
@@ -41,7 +43,12 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        if not self.head and not self.tail:
+			return None
+		elif self.head == self.tail:
+			return self.head.value
+		else:
+			
 
     """
     Adds the given key-value pair to the cache. The newly-
