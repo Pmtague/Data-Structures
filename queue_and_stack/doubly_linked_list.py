@@ -69,8 +69,11 @@ class DoublyLinkedList:
             self.tail = new_node
         # Otherwise, assign the new node's next pointer to the old head, change the old head's prev pointer from null to the new node, and assign the head as to the new node
         else:
+			# Assign new node's next pointer to the current head
             new_node.next = self.head
+			# Assign the current head's previous pointer to the new node
             self.head.prev = new_node
+			# Declare the new node as the head
             self.head = new_node
 
     """Removes the List's current head node, making the
