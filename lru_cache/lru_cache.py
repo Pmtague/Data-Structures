@@ -2,26 +2,6 @@ import sys
 sys.path.append('../doubly_linked_list')
 from doubly_linked_list import DoublyLinkedList
 
-class Queue:
-    def __init__(self):
-        self.size = 0
-        self.storage = DoublyLinkedList()
-
-    def enqueue(self, value):
-        self.size += 1
-        self.storage.add_to_head(value)
-
-    def dequeue(self):
-        if self.len() > 0:
-            self.size -= 1
-            value = self.storage.remove_from_tail()
-            return value
-        else:
-            return None
-			
-    def len(self):
-        return self.size
-
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -30,11 +10,16 @@ class LRUCache:
     order, as well as a storage dict that provides fast access
     to every node stored in the cache.
     """
+    # Declare cache properties
     def __init__(self, limit=10):
+        # Max number of nodes in cache
         self.limit = limit
-		self.count = 0
-		self.q = Queue()
-        self.dict = {}
+        # Current amount of nodes in cache
+        self.length = 0
+        # Initialize empty cache
+        self.cache = {}
+        # Bring in functionality from DoublyLinkedList class
+        self.storage = DoublyLinkedList()
     """
     Retrieves the value associated with the given key. Also
     needs to move the key-value pair to the end of the order
@@ -43,12 +28,14 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        if not self.head and not self.tail:
-			return None
-		elif self.head == self.tail:
-			return self.head.value
-		else:
-			
+        # Check if the requested key is already in the cache
+        if key in self.cache:
+            # Move node with requested key to the beginning of the cache (most recently used)
+            self.storage.move_to_front(self.cache[key])
+            # Return the requested value
+            return self.cache[key].value[key]
+        else:
+            return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -61,4 +48,17 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+        keyval = {key, value}
+
+        if key not in self.cache:
+
+            if self.length == self.limit:
+                self.storage.remove_from_tail()
+                self.storage.add_to_head(keyval)
+            elif self.length < self.limit:
+                self.length += 1
+                self.storage.add_to_head(keyval)
+
+        else:
+            self.cache[key] = value
+            self.storage.move_to_front(self.cache[key])
