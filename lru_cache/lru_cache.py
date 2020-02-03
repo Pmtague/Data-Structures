@@ -30,10 +30,11 @@ class LRUCache:
     def get(self, key):
         # Check if the requested key is already in the cache
         if key in self.cache:
+            node = self.cache[key]
             # Move node with requested key to the beginning of the cache (most recently used)
-            self.storage.move_to_front(self.cache[key])
+            self.storage.move_to_front(node)
             # Return the requested value
-            return self.cache[key].value[key]
+            return node.value[1]
         else:
             return None
 
@@ -47,18 +48,30 @@ class LRUCache:
     want to overwrite the old value associated with the key with
     the newly-specified value.
     """
+    # node and self.order.tail are essentially the same, addresses to the same node
     def set(self, key, value):
-        keyval = {key, value}
 
-        if key not in self.cache:
+        # If the key is already in the cache
+        if key in self.cache:
+            # Declare the node as cache[key]
+            node = self.cache[key]
+            # Destructure the node value
+            node.value = (key, value)
+            # Move the new node to the front (MRU)
+            self.storage.move_to_front(node)
+            return
 
-            if self.length == self.limit:
-                self.storage.remove_from_tail()
-                self.storage.add_to_head(keyval)
-            elif self.length < self.limit:
-                self.length += 1
-                self.storage.add_to_head(keyval)
+        if self.length == self.limit:
+            # Delete the LRU item from the dictionary
+            del self.cache[self.storage.tail.value[0]]
+			# Remove the tail node
+            self.storage.remove_from_tail()
+			# Decrease the length by 1
+            self.length -= 1
 
-        else:
-            self.cache[key] = value
-            self.storage.move_to_front(self.cache[key])
+        # Add the new value to the head
+        self.storage.add_to_head((key, value))
+		# Add the new key, value pair to the dictionary
+        self.cache[key] = self.storage.head
+		# Increase the length by 1
+        self.length += 1
